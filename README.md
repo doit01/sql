@@ -1,3 +1,15 @@
+删除重复deleteduplicates
+delete
+-- select id, quote_version_id,part_id, parent_id,activity_name_en
+FROM oq_prod.oq_execution_quote_summary_activityhttps://github.com/doit01/sql/blob/main/README.md
+WHERE ctid IN (
+  SELECT ctid
+  FROM (
+    SELECT ctid, ROW_NUMBER() OVER (PARTITION BY quote_version_id,part_id, parent_id,activity_name_en ORDER BY (SELECT NULL)) AS rn
+    FROM oq_prod.oq_execution_quote_summary_activity where parent_id  is not null
+  ) sub
+  WHERE rn > 1
+);
 # sql
 
 select decimal_place_precision ,REPLACE(decimal_place_precision,'\' ,'' )   from  ebr_currentweight_entity  where ebr_currentweight_entity.decimal_place_precision  is not null  and strpos(decimal_place_precision,'\')>0
